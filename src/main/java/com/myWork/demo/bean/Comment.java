@@ -7,19 +7,19 @@ package com.myWork.demo.bean;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
-import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToOne;
+import javax.validation.constraints.Size;
 
 /**
  *
  * @author lenovo
  */
 @Entity
-public class Login implements Serializable {
+public class Comment implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -27,30 +27,16 @@ public class Login implements Serializable {
     private Long id;
     private String reference;
     private String username;
-    private String password;
-    private String email;
-    private double nbrSpot;
-    private double nbrFidelite;
-    
-    
-    @OneToMany(mappedBy = "login")
-    private List<Spot> mySpots;
-    
-    
-    @OneToMany(mappedBy = "login")
-    private List<SpotDetails> myLikedSpots;
+    @Size(min = 3, max = 1000)
+    private String commentText;
+
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @ManyToOne
+    private Spot spot;
     
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @OneToMany(mappedBy = "login")
-    private List<Comment> comments;
-
-    public List<Comment> getComments() {
-        return comments;
-    }
-
-    public void setComments(List<Comment> comments) {
-        this.comments = comments;
-    }
+    @ManyToOne
+    private Login login;
 
     public String getReference() {
         return reference;
@@ -59,32 +45,6 @@ public class Login implements Serializable {
     public void setReference(String reference) {
         this.reference = reference;
     }
-    
-
-    
-    
-    public Login() {
-    }
-
-    public List<SpotDetails> getMyLikedSpots() {
-        return myLikedSpots;
-    }
-
-    public void setMyLikedSpots(List<SpotDetails> myLikedSpots) {
-        this.myLikedSpots = myLikedSpots;
-    }
-    
-
-    
-    public List<Spot> getMySpots() {
-        return mySpots;
-    }
-
-    public void setMySpots(List<Spot> mySpots) {
-        this.mySpots = mySpots;
-    }
-    
-    
 
     public String getUsername() {
         return username;
@@ -94,41 +54,32 @@ public class Login implements Serializable {
         this.username = username;
     }
 
-    public String getPassword() {
-        return password;
+    public String getCommentText() {
+        return commentText;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setCommentText(String commentText) {
+        this.commentText = commentText;
     }
 
-    public String getEmail() {
-        return email;
+    public Spot getSpot() {
+        return spot;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setSpot(Spot spot) {
+        this.spot = spot;
     }
 
-    public double getNbrSpot() {
-        return nbrSpot;
+    public Login getLogin() {
+        return login;
     }
 
-    public void setNbrSpot(double nbrSpot) {
-        this.nbrSpot = nbrSpot;
-    }
-
-    public double getNbrFidelite() {
-        return nbrFidelite;
-    }
-
-    public void setNbrFidelite(double nbrFidelite) {
-        this.nbrFidelite = nbrFidelite;
+    public void setLogin(Login login) {
+        this.login = login;
     }
     
     
-    
-
+            
     public Long getId() {
         return id;
     }
@@ -147,10 +98,10 @@ public class Login implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Login)) {
+        if (!(object instanceof Comment)) {
             return false;
         }
-        Login other = (Login) object;
+        Comment other = (Comment) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -159,7 +110,7 @@ public class Login implements Serializable {
 
     @Override
     public String toString() {
-        return "com.myWork.bean.Login[ id=" + id + " ]";
+        return "com.myWork.demo.bean.Comment[ id=" + id + " ]";
     }
     
 }

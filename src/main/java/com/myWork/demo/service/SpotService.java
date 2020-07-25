@@ -18,11 +18,13 @@ public interface SpotService {
 
     public int save(Spot spot, String username);
 
-    public int deleteById(Long id);
+    public int deleteByReference(String reference);
 
-    public Optional<Spot> findById(Long id);
+    public Spot findByReference(String reference);
     
     public List<Spot> findAll();
     
     public int addLike(Spot spot, String username);
+    
+    public List<Spot> findByUserName(String username);
 }

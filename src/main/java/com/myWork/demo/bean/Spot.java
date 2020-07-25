@@ -15,6 +15,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.validation.constraints.Size;
 
 /**
  *
@@ -27,22 +29,53 @@ public class Spot implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    private String reference;
+    @Size(min = 3, max = 1000)
     private String spotText;
     private String username;
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "MM-dd-YY")
     private Date date;
     private double nbrLike;
+    private double nbrComments;
     private String email;
-    private double nbrSpot;
     
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @ManyToOne
     private Login login;
-
+    
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @ManyToOne
-    private Login userLovedSpot;
+    @OneToMany(mappedBy = "spot")
+    private List<SpotDetails> spots;
 
+    
+    @OneToMany(mappedBy = "spot")
+    private List<Comment> comments;
+
+    public double getNbrComments() {
+        return nbrComments;
+    }
+
+    public void setNbrComments(double nbrComments) {
+        this.nbrComments = nbrComments;
+    }
+
+    public List<SpotDetails> getSpots() {
+        return spots;
+    }
+
+    public void setSpots(List<SpotDetails> spots) {
+        this.spots = spots;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
+    
+    
     public String getEmail() {
         return email;
     }
@@ -51,25 +84,15 @@ public class Spot implements Serializable {
         this.email = email;
     }
 
-    public double getNbrSpot() {
-        return nbrSpot;
+    public String getReference() {
+        return reference;
     }
 
-    public void setNbrSpot(double nbrSpot) {
-        this.nbrSpot = nbrSpot;
+    public void setReference(String reference) {
+        this.reference = reference;
     }
     
     
-    
-    
-
-    public Login getUserLovedSpot() {
-        return userLovedSpot;
-    }
-
-    public void setUserLovedSpot(Login userLovedSpot) {
-        this.userLovedSpot = userLovedSpot;
-    }
 
     public double getNbrLike() {
         return nbrLike;

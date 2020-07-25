@@ -16,7 +16,9 @@ public interface LoginService {
     
     public int seConnecter(String username, String password);
     public Login findByUsername(String username);
+    public Login findByReference(String reference);
     public List<Login> findByNbrSpot(double nbrSpot);
     public int save(Login login);
+    public int update(Login login);
     
 }

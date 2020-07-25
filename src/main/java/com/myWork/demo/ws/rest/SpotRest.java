@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author lenovo
  */
 @RestController
-@CrossOrigin(origins = {"http://localhost:4200"})
+@CrossOrigin(origins = {"https://spotteduv.herokuapp.com"})
 @RequestMapping("spot")
 public class SpotRest {
     
@@ -38,14 +38,10 @@ public class SpotRest {
         return spotService.save(spot, username);
     }
     
-    @DeleteMapping("/delete/{id}")
-    public int deleteById(@PathVariable Long id){
-        return spotService.deleteById(id);
-    }
     
-    @GetMapping("/find/{id}")
-    public Optional<Spot> findById(@PathVariable Long id){
-        return spotService.findById(id);
+    @GetMapping("/find/{reference}")
+    public Spot findByReference(@PathVariable String reference){
+        return spotService.findByReference(reference);
     }
     
     @GetMapping("/")
@@ -59,4 +55,15 @@ public class SpotRest {
 
         return spotService.addLike(spot, username);
     }
+
+    @DeleteMapping("delete/{reference}")
+    public int deleteByReference(@PathVariable String reference) {
+        return spotService.deleteByReference(reference);
+    }
+
+    @GetMapping("/mySpots/{username}")
+    public List<Spot> findByUserName(@PathVariable String username) {
+        return spotService.findByUserName(username);
+    }
+    
 }
