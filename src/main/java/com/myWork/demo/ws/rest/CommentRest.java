@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author lenovo
  */
 @RestController
-@CrossOrigin(origins = {"http://localhost:4200"})
+@CrossOrigin(origins = {"https://spotteduv.herokuapp.com"})
 @RequestMapping("spot/Comment")
 public class CommentRest {
     @Autowired
